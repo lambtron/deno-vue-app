@@ -1,5 +1,6 @@
 <script>
 import { ref } from 'vue'
+import { store } from '../store.js'
 
 export default ({
   async setup() {
@@ -9,9 +10,9 @@ export default ({
       dinosaurs
     }
   },
-  methods: {
-    shareData() {
-      this.$router.push({ name: "Dinosaur", params: { data: this.dinosaurs }})
+  data() {
+    return {
+      store
     }
   }
 })
@@ -23,7 +24,9 @@ export default ({
     <div v-for="dinosaur in dinosaurs" class="dinosaur-wrapper">
       <span class="dinosaur">
         <router-link :to="{ name: 'Dinosaur', params: { dinosaur: `${dinosaur.name.toLowerCase()}` }, props: { description: `${dinosaur.description}` }}">
-          {{dinosaur.name}}
+          <span @click="store.setDinosaur(dinosaur.name, dinosaur.description)">
+            {{dinosaur.name}}
+          </span>
         </router-link>
       </span>
     </div>
